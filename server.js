@@ -19,8 +19,8 @@ const wss = new WebSocketServer({port: 8080});
 
 wss.on('connection', function connection(ws, req) {
     console.log(ws);
-    console.log("\n\n\n");
-    console.log(req);
+    // console.log("\n\n\n");
+    // console.log(req);
     ws.on('message', function incoming(message){
         console.log('receive: %s', message);
         ws.send(`Hello client, you sent -> ${message}`);

@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^8.2.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "my first chat application using node js as the back end and react as the front end",
+  "main": "server.js",
+  "author": "andy velazquez",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {}
+}
