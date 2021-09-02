@@ -11,6 +11,7 @@ import express from "express";
 
 const app = express();
 const port = 3000;
+const users = [];
 
 //const server = http.createServer(app);
 
@@ -28,6 +29,12 @@ wss.on('connection', function connection(ws, req) {
 
     ws.send('i am a websocket server');
 });
+
+app.get("/" , (req, res) => {
+
+    
+
+})
 
 app.listen( port, () => {
     console.log(`server started on port ${port}}`);
