@@ -11,7 +11,10 @@ import express from "express";
 
 const app = express();
 const port = 3000;
-const users = [];
+const users = [{username: "andy",
+              password: "1234"},
+            {username: "test",
+          password: "abcd"}];
 
 //const server = http.createServer(app);
 
@@ -31,8 +34,8 @@ wss.on('connection', function connection(ws, req) {
 });
 
 app.get("/" , (req, res) => {
-
-    
+    console.log(req);
+    console.log(res);
 
 })
 

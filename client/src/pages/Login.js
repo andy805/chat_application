@@ -22,7 +22,7 @@ const Login = (props) => {
     }
 
     return (
-        <form onSubmit={loginSubmitHandler}>
+        <form onSubmit={loginSubmitHandler} method="post" action="/">
             <label>Username</label>
             <input type="text" onChange={inputUsernameHandler} value={username}></input>
             <label>Password</label>

@@ -2,10 +2,12 @@ import './App.css';
 import {useState, useEffect} from 'react';
 import MessageInput from './Components/MessageInput.js'
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
-import Login from './pages/Login.js'
+import Login from './pages/Login.js';
+import Main from './pages/Main.js';
 
 const myMessages = ["test"];
 let socket;
+const users =[];
 
 
 function App() {
@@ -50,8 +52,17 @@ const textChangeHandler = (ev) => {
 }
 
 const loginHandler = (username, password) => {
-  localStorage.setItem('isLoggedIn' , '1');
-  setIsLoggedIn(true);
+  for(let i = 0; i < users.length; i++){
+    if(users[i].username === username && users[i].password === password){
+      localStorage.setItem('isLoggedIn' , '1');
+      setIsLoggedIn(true);
+    }
+  }
+}
+
+const logoutHandler = () => {
+  localStorage.removeItem('isLoggedIn');
+  setIsLoggedIn(false);
 }
   
   return (
@@ -62,20 +73,11 @@ const loginHandler = (username, password) => {
           <h2>Test w</h2>
         </Route>
         <Route path="/user">
-          <div>
-            <form onSubmit={submitMessageHandler}>
-              <input type="text" onChange={textChangeHandler} value={currMessage}></input>
-              <button type="submit">send</button>
-
-            </form>
-            <button onClick={connect}>connect</button>
-            {messages.map((message, index) => {
-              return (<p key={index}>{message}</p>)})}
-          </div>
+          <Main/>
         </Route>
         <Route path="/">
-          {isLoggedIn && <Redirect to="/user"/>}
           {!isLoggedIn && <Login onLogin={loginHandler}/> }
+          {isLoggedIn && <Main onLogout={logoutHandler}/>}
         </Route>
       </Switch>
     </div>
