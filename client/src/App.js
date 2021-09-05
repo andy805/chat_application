@@ -52,13 +52,31 @@ const textChangeHandler = (ev) => {
 }
 
 const loginHandler = (username, password) => {
-  for(let i = 0; i < users.length; i++){
-    if(users[i].username === username && users[i].password === password){
-      localStorage.setItem('isLoggedIn' , '1');
-      setIsLoggedIn(true);
-    }
+  /* send username and password to server
+   * wait for response
+   * responce will be a yes or no depending if username and password were correct
+   * if its correct then login --> load all user specific stuff
+   * else --> give error wrong credentials
+   */
+
+  const cred = {username: username, password:password};
+
+  const fetchLogin = fetch("http://localhost:3000/", {
+    method:"POST",
+    headers: { 
+      'Content-Type': "application/json"
+    },
+    body: JSON.stringify(cred)
+  });
+    fetchLogin.then(res => {
+      console.log(res);
+      alert("wow")
+    }, rej => {
+      console.log(rej);
+      alert("rejection")
+    });
+
   }
-}
 
 const logoutHandler = () => {
   localStorage.removeItem('isLoggedIn');
