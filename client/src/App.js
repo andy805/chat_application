@@ -1,4 +1,3 @@
-import './App.css';
 import {useState, useEffect} from 'react';
 import MessageInput from './Components/MessageInput.js'
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
@@ -7,7 +6,7 @@ import Main from './pages/Main.js';
 
 const myMessages = ["test"];
 let socket;
-const users =[];
+const user = {username: "" , password: ""};
 
 
 function App() {
@@ -69,8 +68,14 @@ const loginHandler = (username, password) => {
     body: JSON.stringify(cred)
   });
     fetchLogin.then(res => {
-      console.log(res);
-      alert("wow")
+      res.json().then( jsonRes => {
+        if(jsonRes.isValidUser) {
+          setIsLoggedIn(jsonRes.isValidUser);
+          user.username = username;
+          user.password = password
+        }
+      })
+      
     }, rej => {
       console.log(rej);
       alert("rejection")
@@ -95,7 +100,7 @@ const logoutHandler = () => {
         </Route>
         <Route path="/">
           {!isLoggedIn && <Login onLogin={loginHandler}/> }
-          {isLoggedIn && <Main onLogout={logoutHandler}/>}
+          {isLoggedIn && <Main onLogout={logoutHandler} user={user}/>}
         </Route>
       </Switch>
     </div>
