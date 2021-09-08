@@ -22,16 +22,17 @@ const users = [{username: "andy",
 
 //const server = http.createServer(app);
 
-const wss = new WebSocketServer({port: 8080});
+const wss = new WebSocketServer({port: 8080, clientTracking: true});
 
 
 wss.on('connection', function connection(ws, req) {
-    console.log(ws);
-    // console.log("\n\n\n");
-    // console.log(req);
+
     ws.on('message', function incoming(message){
-        console.log('receive: %s', message);
-        ws.send(`Hello client, you sent -> ${message}`);
+        let packet = JSON.parse(message);
+        console.log(packet);
+        console.log('receive: %s', packet.message);
+        console.log('username: %s', packet.username);
+        ws.send(`Hello client, you sent -> ${packet.message}`);
     });
 
     ws.send('i am a websocket server');
@@ -47,8 +48,10 @@ app.post("/" , (req, res) => {
     console.log(user);
     for(let i = 0; i < users.length; i++) {
         if(user.username === users[i].username && user.password === users[i].password) {
-            const validUser = { isValidUser: "1"};
+            const validUser = { isValidUser: 1};
             res.json(validUser);
+            console.log(res);
+            console.log("correct username and password: "+user.username)
             return;
         }
     }
