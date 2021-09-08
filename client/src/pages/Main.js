@@ -11,10 +11,18 @@ const Main = (props) => {
     useEffect(() => {
         socket = new WebSocket('ws://localhost:8080');
         socket.addEventListener('open', function(ev) {
-            socket.send("hello server!")
+            console.log(socket);
+            console.log(ev);
+            let packet = {
+                username: props.user.username,
+                password: props.user.password,
+                message: "hello Server!"
+            }
+            socket.send(JSON.stringify(packet))
         });
 
         socket.addEventListener('message', function(ev) {
+            console.log("message event:"+ev.data);
             setMessages(prevState => {
                 return [ev.data, ...prevState];
             });
@@ -27,7 +35,12 @@ const Main = (props) => {
 
     const submitMessageHandler = (ev) => {
         ev.preventDefault();
-        socket.send(currMessage);
+        let packet = {
+            username: props.user.username,
+            password: props.user.password,
+            message: currMessage
+        }
+        socket.send(JSON.stringify(packet));
         setCurrMessage("");
     }
 
